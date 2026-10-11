@@ -7,6 +7,9 @@ export function setupParallax() {
   const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (isReduced) return;
 
+  const isTouch = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (isTouch) return;
+
   const floatingItems = document.querySelectorAll('[data-parallax-speed]');
   let mouseX = 0;
   let mouseY = 0;

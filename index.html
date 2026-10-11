@@ -34,31 +34,31 @@
   </div>
 
   <!-- GRANOS DE CAFÉ FLOTANTES DECORATIVOS (CAPA PARALLAX) -->
-  <div class="fixed inset-0 pointer-events-none z-10 overflow-hidden" aria-hidden="true">
-    <!-- Grano superior izquierdo -->
+  <div class="fixed inset-0 pointer-events-none z-10 overflow-hidden max-w-full" aria-hidden="true">
+    <!-- Grano superior izquierdo (solo visible en pantallas medianas y grandes) -->
     <img src="/assets/images/coffee-bean.svg" alt="" 
          data-parallax-speed="25" data-parallax-rotate="-18"
-         class="absolute -left-6 top-32 w-16 h-20 opacity-80 blur-[0.5px] animate-float-slow" />
+         class="absolute -left-6 top-32 w-16 h-20 opacity-80 blur-[0.5px] animate-float-slow hidden md:block" />
     
-    <!-- Grano superior derecho (primer plano, mayor escala, leve desenfoque) -->
+    <!-- Grano superior derecho (solo visible en pantallas medianas y grandes) -->
     <img src="/assets/images/coffee-bean.svg" alt="" 
          data-parallax-speed="40" data-parallax-rotate="28"
-         class="absolute right-8 top-44 w-20 h-26 opacity-90 blur-[1px] animate-float-reverse" />
+         class="absolute right-8 top-44 w-20 h-26 opacity-90 blur-[1px] animate-float-reverse hidden md:block" />
     
     <!-- Grano medio izquierdo -->
     <img src="/assets/images/coffee-bean.svg" alt="" 
          data-parallax-speed="18" data-parallax-rotate="-42"
-         class="absolute left-10 top-[110vh] w-12 h-16 opacity-70" />
+         class="absolute left-4 sm:left-10 top-[110vh] w-8 h-12 md:w-12 md:h-16 opacity-60 md:opacity-70" />
     
     <!-- Grano medio derecho -->
     <img src="/assets/images/coffee-bean.svg" alt="" 
          data-parallax-speed="32" data-parallax-rotate="15"
-         class="absolute right-4 top-[240vh] w-14 h-18 opacity-85" />
+         class="absolute right-3 sm:right-4 top-[240vh] w-9 h-12 md:w-14 md:h-18 opacity-70 md:opacity-85" />
     
     <!-- Grano inferior izquierdo -->
     <img src="/assets/images/coffee-bean.svg" alt="" 
          data-parallax-speed="22" data-parallax-rotate="-25"
-         class="absolute left-6 top-[330vh] w-14 h-18 opacity-75" />
+         class="absolute left-3 sm:left-6 top-[330vh] w-9 h-12 md:w-14 md:h-18 opacity-60 md:opacity-75" />
   </div>
 
   <!-- HEADER / BARRA DE NAVEGACIÓN -->
@@ -126,15 +126,15 @@
   <!-- 1. SECCIÓN HERO: CANVAS CON SCROLL STORYTELLING -->
   <!-- ========================================== -->
   <section id="hero-scroll-track" class="relative w-full h-[380vh]">
-    <div id="hero-sticky" class="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between pt-24 pb-8">
+    <div id="hero-sticky" class="sticky top-0 h-[100dvh] sm:h-screen w-full overflow-hidden flex flex-col justify-between pt-20 sm:pt-24 pb-6 sm:pb-8">
       
       <!-- Canvas interactivo para la secuencia de 240 fotogramas (vaso completamente limpio sin texto) -->
       <canvas id="hero-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
 
       <!-- Tipografía del Hero & Título Principal -->
-      <div class="relative z-20 max-w-5xl mx-auto px-6 text-center mt-4">
+      <div class="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 text-center mt-2 sm:mt-4 pointer-events-none">
         <div id="hero-title" class="transition-transform duration-100 will-change-transform">
-          <h2 class="font-bebas text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-forest-800 leading-[0.92] drop-shadow-sm">
+          <h2 class="font-bebas text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-normal sm:tracking-tight text-forest-800 leading-[0.95] drop-shadow-sm">
             UNA GRAN MAÑANA<br>EMPIEZA CON
           </h2>
         </div>
@@ -155,12 +155,22 @@
         </div>
       </div>
 
-      <!-- Barra Inferior: Indicador de Scroll Elegante y Minimalista -->
-      <div class="relative z-20 w-full max-w-4xl mx-auto px-6 flex items-center justify-center">
-        <div id="scroll-indicator" class="flex items-center space-x-2 text-forest-800/80 transition-opacity duration-200">
-          <span class="text-[11px] font-bold tracking-widest uppercase">Desplaza para Descubrir</span>
-          <div class="w-5 h-8 rounded-full border-2 border-forest-800/40 flex items-start justify-center p-1">
-            <div class="w-1.5 h-2 bg-forest-800 rounded-full animate-bounce"></div>
+      <!-- Barra Inferior: Indicador de Scroll Responsivo (Táctil en móvil, Mouse en desktop) -->
+      <div class="relative z-20 w-full max-w-4xl mx-auto px-6 flex items-center justify-center pointer-events-none">
+        <div id="scroll-indicator" class="transition-opacity duration-200">
+          <!-- Versión Celular / Táctil -->
+          <div class="flex sm:hidden items-center space-x-2 text-forest-800/80 bg-cream-50/80 backdrop-blur-sm px-3.5 py-1.5 rounded-full border border-forest-800/10 shadow-xs">
+            <span class="text-[10px] font-bold tracking-widest uppercase">Desliza para explorar</span>
+            <svg class="w-3.5 h-3.5 text-forest-800 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+          </div>
+          <!-- Versión Escritorio (Mouse) -->
+          <div class="hidden sm:flex items-center space-x-2 text-forest-800/80">
+            <span class="text-[11px] font-bold tracking-widest uppercase">Desplaza para Descubrir</span>
+            <div class="w-5 h-8 rounded-full border-2 border-forest-800/40 flex items-start justify-center p-1">
+              <div class="w-1.5 h-2 bg-forest-800 rounded-full animate-bounce"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -171,15 +181,15 @@
   <!-- ========================================== -->
   <!-- 2. SECCIÓN: NUESTRA HISTORIA -->
   <!-- ========================================== -->
-  <section id="story" class="relative py-28 md:py-36 px-6 max-w-4xl mx-auto text-center">
+  <section id="story" class="relative py-24 md:py-36 px-6 max-w-4xl mx-auto text-center overflow-hidden">
     
     <!-- Taza con Latte Art Flotante (Margen Derecho) -->
-    <div class="absolute -right-16 md:-right-28 top-12 w-32 md:w-48 pointer-events-none select-none z-10" data-parallax-speed="20" data-parallax-rotate="12">
+    <div class="absolute -right-16 md:-right-28 top-12 w-32 md:w-48 pointer-events-none select-none z-10 hidden sm:block" data-parallax-speed="20" data-parallax-rotate="12">
       <img src="/assets/images/cup-top.webp" alt="Espresso y crema fresca" class="w-full h-auto drop-shadow-xl rounded-full" />
     </div>
 
     <!-- Hojaldre Artesanal Flotante (Margen Izquierdo) -->
-    <div class="absolute -left-12 md:-left-28 bottom-8 w-28 md:w-40 pointer-events-none select-none z-10" data-parallax-speed="18" data-parallax-rotate="-10">
+    <div class="absolute -left-12 md:-left-28 bottom-8 w-28 md:w-40 pointer-events-none select-none z-10 hidden sm:block" data-parallax-speed="18" data-parallax-rotate="-10">
       <img src="/assets/images/pastry.webp" alt="Hojaldre dorado de mantequilla" class="w-full h-auto drop-shadow-lg rounded-full" />
     </div>
 
@@ -337,7 +347,7 @@
   <!-- ========================================== -->
   <!-- 4. BANNER DIVISORIO / MARQUEE (SIN SOLAPAMIENTO) -->
   <!-- ========================================== -->
-  <section class="relative w-full bg-forest-800 py-16 sm:py-24 my-20 overflow-visible">
+  <section class="relative w-full bg-forest-800 py-16 sm:py-24 my-20 overflow-hidden">
     
     <div class="max-w-7xl mx-auto px-6 sm:px-12 flex flex-col lg:flex-row items-center justify-between gap-8 relative">
       
@@ -379,7 +389,7 @@
   <!-- ========================================== -->
   <!-- 5. SECCIÓN: EXPLORA NUESTRO MENÚ (PRECIOS MXN) -->
   <!-- ========================================== -->
-  <section id="menu" class="relative py-24 md:py-32 px-6 max-w-5xl mx-auto">
+  <section id="menu" class="relative py-24 md:py-32 px-6 max-w-5xl mx-auto overflow-hidden">
     
     <!-- Mancha de café decorativa en el margen derecho -->
     <div class="absolute -right-8 bottom-16 w-36 pointer-events-none select-none" aria-hidden="true">

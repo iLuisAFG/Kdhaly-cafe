@@ -198,19 +198,21 @@ export class HeroCanvasScroller {
 
     this.ctx.clearRect(0, 0, w, h);
 
-    // Responsive aspect ratio scaling
+    // Responsive aspect ratio scaling (Immersive Cover)
     // Image base: 1280x720
     const imgW = img.width || 1280;
     const imgH = img.height || 720;
+    const isMobile = w < 768;
     
-    // Prominent fit: scale to comfortably occupy screen while keeping cup centered
-    const scale = Math.min(w / imgW, h / imgH) * (w < 768 ? 1.45 : 1.18);
+    // Cover scale: Math.max ensures the frame completely covers 100% of the canvas under any aspect ratio.
+    // On mobile screens (tall portrait), it completely eliminates the letterbox border / square artifact.
+    const scale = Math.max(w / imgW, h / imgH) * (isMobile ? 1.08 : 1.02);
     const renderW = imgW * scale;
     const renderH = imgH * scale;
     
-    // Position slightly lower on desktop so title fits above
+    // Center horizontally; subtly offset on mobile so the cup frames comfortably below the hero title
     const offsetX = (w - renderW) / 2;
-    const offsetY = (h - renderH) / 2 + (w < 768 ? 20 : 40);
+    const offsetY = (h - renderH) / 2 + (isMobile ? 22 : 10);
 
     this.ctx.drawImage(img, offsetX, offsetY, renderW, renderH);
   }

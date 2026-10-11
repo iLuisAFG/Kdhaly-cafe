@@ -72,6 +72,26 @@ function setupTestimonialSlider() {
     nextBtn.addEventListener('click', () => updateSlide(currentIndex + 1));
   }
 
+  // Mobile touch swipe support
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  track.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  track.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) {
+        updateSlide(currentIndex + 1);
+      } else {
+        updateSlide(currentIndex - 1);
+      }
+    }
+  }, { passive: true });
+
   updateSlide(0);
 }
 
