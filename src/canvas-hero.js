@@ -161,15 +161,20 @@ export class HeroCanvasScroller {
     if (scrollDistance <= 0) return;
     
     const scrolled = -rect.top;
-    const progress = Math.max(0, Math.min(1, scrolled / scrollDistance));
-    this.targetProgress = progress;
+    // Map progress so the 240th frame is reached before the bottom leaves, ensuring full immersion
+    const rawProgress = Math.max(0, Math.min(1, scrolled / scrollDistance));
+    const normalizedProgress = Math.min(1, rawProgress / 0.94);
+    this.targetProgress = normalizedProgress;
   }
 
   rafLoop() {
-    // Emil Kowalski smooth interpolation
+    // Emil Kowalski smooth interpolation: slightly snappier on mobile touch for zero lag
+    const isMobile = window.innerWidth < 768;
+    const factor = isMobile ? 0.16 : this.lerpFactor;
+    
     const diff = this.targetProgress - this.currentProgress;
     if (Math.abs(diff) > 0.0001) {
-      this.currentProgress += diff * this.lerpFactor;
+      this.currentProgress += diff * factor;
     } else {
       this.currentProgress = this.targetProgress;
     }
