@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kdhaly El Rincón del Café • Cafetería de Especialidad & Tostaduría</title>
+  <meta name="description" content="Kdhaly El Rincón del Café - Una gran mañana empieza con el mejor café. Granos orgánicos de origen único y desayunos artesanales.">
+  <link rel="icon" type="image/svg+xml" href="/assets/images/coffee-bean.svg">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body class="bg-cream-100 text-forest-800 antialiased selection:bg-forest-800 selection:text-cream-100 min-h-screen">
+
+  <!-- Sutil textura táctil de grano de papel orgánico -->
+  <div class="paper-grain" aria-hidden="true"></div>
+
+  <!-- PRECARGADOR ASÍNCRONO INICIAL -->
+  <div id="hero-loader" class="fixed inset-0 z-[100] bg-cream-100 flex flex-col items-center justify-center transition-opacity duration-500">
+    <div class="relative flex flex-col items-center max-w-xs text-center px-6">
+      <!-- Icono de grano de café con pulsación -->
+      <img src="/assets/images/coffee-bean.svg" alt="" class="w-12 h-16 mb-6 animate-pulse opacity-90 drop-shadow-sm" />
+      <h2 class="font-bebas text-3xl tracking-widest text-forest-800 mb-1">KDHALY</h2>
+      <p class="font-sans text-xs tracking-widest uppercase text-coffee-700 font-semibold mb-6">El Rincón del Café</p>
+      
+      <!-- Pista de progreso -->
+      <div class="w-48 h-1.5 bg-cream-300 rounded-full overflow-hidden relative mb-3">
+        <div id="loader-bar" class="loader-progress-bar h-full bg-forest-800 rounded-full w-0"></div>
+      </div>
+      
+      <div class="flex items-center justify-between w-48 text-xs font-mono text-forest-700">
+        <span class="tracking-wider">Preparando fotogramas</span>
+        <span id="loader-percent" class="font-bold">0%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRANOS DE CAFÉ FLOTANTES DECORATIVOS (CAPA PARALLAX) -->
+  <div class="fixed inset-0 pointer-events-none z-10 overflow-hidden" aria-hidden="true">
+    <!-- Grano superior izquierdo -->
+    <img src="/assets/images/coffee-bean.svg" alt="" 
+         data-parallax-speed="25" data-parallax-rotate="-18"
+         class="absolute -left-6 top-32 w-16 h-20 opacity-80 blur-[0.5px] animate-float-slow" />
+    
+    <!-- Grano superior derecho (primer plano, mayor escala, leve desenfoque) -->
+    <img src="/assets/images/coffee-bean.svg" alt="" 
+         data-parallax-speed="40" data-parallax-rotate="28"
+         class="absolute right-8 top-44 w-20 h-26 opacity-90 blur-[1px] animate-float-reverse" />
+    
+    <!-- Grano medio izquierdo -->
+    <img src="/assets/images/coffee-bean.svg" alt="" 
+         data-parallax-speed="18" data-parallax-rotate="-42"
+         class="absolute left-10 top-[110vh] w-12 h-16 opacity-70" />
+    
+    <!-- Grano medio derecho -->
+    <img src="/assets/images/coffee-bean.svg" alt="" 
+         data-parallax-speed="32" data-parallax-rotate="15"
+         class="absolute right-4 top-[240vh] w-14 h-18 opacity-85" />
+    
+    <!-- Grano inferior izquierdo -->
+    <img src="/assets/images/coffee-bean.svg" alt="" 
+         data-parallax-speed="22" data-parallax-rotate="-25"
+         class="absolute left-6 top-[330vh] w-14 h-18 opacity-75" />
+  </div>
+
+  <!-- HEADER / BARRA DE NAVEGACIÓN -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-cream-100/90 backdrop-blur-md border-b border-cream-300/40">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      
+      <!-- Izquierda: Redes Sociales (Instagram, Facebook, TikTok) -->
+      <nav class="flex items-center space-x-3" aria-label="Redes sociales">
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/cafe__kdhalyoficial/" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-forest-800/25 flex items-center justify-center text-forest-800 hover:bg-forest-800 hover:text-cream-100 btn-pressable" title="Instagram @cafe__kdhalyoficial">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <!-- Facebook -->
+        <a href="https://www.facebook.com/profile.php?id=100064850762167&locale=es_LA" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-forest-800/25 flex items-center justify-center text-forest-800 hover:bg-forest-800 hover:text-cream-100 btn-pressable" title="Facebook Kdhaly">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M9 8H6v4h3v12h5V12h3.642L18 8h-4V6.333C14 5.374 14.5 5 15.688 5H18V0h-3.808C10.597 0 9 1.583 9 4.615V8z"/></svg>
+        </a>
+        <!-- TikTok -->
+        <a href="https://www.tiktok.com/@kdhalycafeteria" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-forest-800/25 flex items-center justify-center text-forest-800 hover:bg-forest-800 hover:text-cream-100 btn-pressable" title="TikTok @kdhalycafeteria">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.16 1.18 2.09 2.35 2.29.98.18 2.02-.07 2.79-.72.63-.51 1.01-1.28 1.08-2.09.07-2.73.04-5.46.04-8.19V.02h2.46z"/></svg>
+        </a>
+      </nav>
+
+      <!-- Centro: Logotipo de la Marca Kdhaly El Rincón del café -->
+      <a href="#" class="text-center group focus:outline-none">
+        <h1 class="font-bebas text-2xl md:text-3xl tracking-[0.16em] text-forest-800 group-hover:text-forest-700 transition-colors leading-tight">
+          KDHALY
+        </h1>
+        <p class="font-sans text-[10px] tracking-[0.25em] text-coffee-700 font-semibold uppercase -mt-0.5">
+          EL RINCÓN DEL CAFÉ
+        </p>
+      </a>
+
+      <!-- Derecha: Botón de Pedido & Menú Móvil -->
+      <div class="flex items-center space-x-3">
+        <button data-open-order class="hidden sm:inline-flex items-center px-5 py-2.5 rounded-full bg-forest-800 text-cream-100 text-xs font-semibold tracking-wider uppercase btn-pressable hover:bg-forest-900 shadow-sm">
+          <span>Pedir Online</span>
+        </button>
+
+        <button id="mobile-nav-toggle" class="p-2.5 rounded-full hover:bg-cream-200 transition-colors focus:outline-none" aria-label="Abrir Menú">
+          <svg class="w-6 h-6 text-forest-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Menú desplegable móvil -->
+    <div id="mobile-menu-drawer" class="hidden opacity-0 -translate-y-4 transition-all duration-300 bg-cream-100 border-b border-cream-300 px-6 py-6 space-y-4 shadow-lg md:hidden">
+      <a href="#story" class="mobile-nav-link block font-serif text-lg text-forest-800 hover:text-coffee-accent font-medium">Nuestra Historia</a>
+      <a href="#specials" class="mobile-nav-link block font-serif text-lg text-forest-800 hover:text-coffee-accent font-medium">Nuestros Especiales</a>
+      <a href="#menu" class="mobile-nav-link block font-serif text-lg text-forest-800 hover:text-coffee-accent font-medium">Explorar Menú</a>
+      <a href="#gallery" class="mobile-nav-link block font-serif text-lg text-forest-800 hover:text-coffee-accent font-medium">Galería</a>
+      <a href="#visitors" class="mobile-nav-link block font-serif text-lg text-forest-800 hover:text-coffee-accent font-medium">Testimonios</a>
+      <a href="#contact" class="mobile-nav-link block font-serif text-lg text-forest-800 hover:text-coffee-accent font-medium">Encuéntranos</a>
+      <div class="pt-2">
+        <button data-open-order class="w-full py-3 rounded-full bg-forest-800 text-cream-100 text-xs font-semibold uppercase tracking-wider btn-pressable">
+          Pedir Online Ahora
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- 1. SECCIÓN HERO: CANVAS CON SCROLL STORYTELLING -->
+  <!-- ========================================== -->
+  <section id="hero-scroll-track" class="relative w-full h-[380vh]">
+    <div id="hero-sticky" class="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between pt-24 pb-8">
+      
+      <!-- Canvas interactivo para la secuencia de 240 fotogramas (vaso completamente limpio sin texto) -->
+      <canvas id="hero-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+      <!-- Tipografía del Hero & Título Principal -->
+      <div class="relative z-20 max-w-5xl mx-auto px-6 text-center mt-4">
+        <div id="hero-title" class="transition-transform duration-100 will-change-transform">
+          <h2 class="font-bebas text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-forest-800 leading-[0.92] drop-shadow-sm">
+            UNA GRAN MAÑANA<br>EMPIEZA CON
+          </h2>
+        </div>
+      </div>
+
+      <!-- Distintivos Flotantes Laterales -->
+      <div class="relative z-20 w-full max-w-7xl mx-auto px-8 flex justify-between items-center pointer-events-none">
+        <!-- Distintivo Izquierdo -->
+        <div id="hero-badge-left" class="hidden md:flex flex-col items-start bg-cream-50/85 backdrop-blur-sm border border-cream-300/60 rounded-xl px-4 py-2.5 shadow-sm text-left max-w-[210px] pointer-events-auto transition-transform duration-100">
+          <span class="text-[10px] uppercase font-bold tracking-widest text-coffee-accent">Origen de Especialidad</span>
+          <span class="font-serif text-xs font-semibold text-forest-800 leading-snug">Granos Etíopes de Comercio Ético</span>
+        </div>
+
+        <!-- Distintivo Derecho -->
+        <div id="hero-badge-right" class="hidden md:flex flex-col items-end bg-cream-50/85 backdrop-blur-sm border border-cream-300/60 rounded-xl px-4 py-2.5 shadow-sm text-right max-w-[210px] pointer-events-auto transition-transform duration-100">
+          <span class="text-[10px] uppercase font-bold tracking-widest text-coffee-accent">Maestro Tostador</span>
+          <span class="font-serif text-xs font-semibold text-forest-800 leading-snug">Tostado Artesanal Diario en Lotes Pequeños</span>
+        </div>
+      </div>
+
+      <!-- Barra Inferior: Indicador de Scroll Elegante y Minimalista -->
+      <div class="relative z-20 w-full max-w-4xl mx-auto px-6 flex items-center justify-center">
+        <div id="scroll-indicator" class="flex items-center space-x-2 text-forest-800/80 transition-opacity duration-200">
+          <span class="text-[11px] font-bold tracking-widest uppercase">Desplaza para Descubrir</span>
+          <div class="w-5 h-8 rounded-full border-2 border-forest-800/40 flex items-start justify-center p-1">
+            <div class="w-1.5 h-2 bg-forest-800 rounded-full animate-bounce"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 2. SECCIÓN: NUESTRA HISTORIA -->
+  <!-- ========================================== -->
+  <section id="story" class="relative py-28 md:py-36 px-6 max-w-4xl mx-auto text-center">
+    
+    <!-- Taza con Latte Art Flotante (Margen Derecho) -->
+    <div class="absolute -right-16 md:-right-28 top-12 w-32 md:w-48 pointer-events-none select-none z-10" data-parallax-speed="20" data-parallax-rotate="12">
+      <img src="/assets/images/cup-top.webp" alt="Espresso y crema fresca" class="w-full h-auto drop-shadow-xl rounded-full" />
+    </div>
+
+    <!-- Hojaldre Artesanal Flotante (Margen Izquierdo) -->
+    <div class="absolute -left-12 md:-left-28 bottom-8 w-28 md:w-40 pointer-events-none select-none z-10" data-parallax-speed="18" data-parallax-rotate="-10">
+      <img src="/assets/images/pastry.webp" alt="Hojaldre dorado de mantequilla" class="w-full h-auto drop-shadow-lg rounded-full" />
+    </div>
+
+    <!-- Título de Sección & Grano de Café -->
+    <div class="inline-flex flex-col items-center mb-10">
+      <h2 class="font-bebas text-4xl sm:text-5xl md:text-6xl tracking-wider text-forest-800 mb-3">
+        NUESTRA HISTORIA
+      </h2>
+      <img src="/assets/images/coffee-bean.svg" alt="" class="w-4 h-6 opacity-80" />
+    </div>
+
+    <!-- Párrafo Editorial de la Historia -->
+    <div class="font-editorial text-forest-900/90 text-lg md:text-xl md:leading-relaxed font-light space-y-6 max-w-2xl mx-auto text-justify sm:text-center">
+      <p class="drop-cap leading-relaxed">
+        Fundada con una inquebrantable pasión por la excelencia en 2019, Kdhaly El Rincón del Café nació del deseo de celebrar la rica y diversa cultura del café. Desde nuestros humildes comienzos como una pequeña cafetería de barrio, nos hemos convertido en un santuario entrañable para amantes del café, artistas y soñadores.
+      </p>
+      <p class="leading-relaxed">
+        Nuestra trayectoria ha sido guiada por una única misión: seleccionar los mejores granos de productores éticos de todo el mundo, tostándolos con precisión y esmero para revelar sus perfiles de sabor únicos. Cada taza cuenta una historia de dedicación, maestría artesanal y comunidad: una tradición que te invitamos a vivir en cada sorbo.
+      </p>
+    </div>
+
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 3. SECCIÓN: NUESTROS ESPECIALES (PRECIOS MXN) -->
+  <!-- ========================================== -->
+  <section id="specials" class="relative py-24 md:py-32 px-6 max-w-6xl mx-auto">
+    
+    <div class="text-center mb-16">
+      <h2 class="font-bebas text-4xl sm:text-5xl md:text-6xl tracking-wider text-forest-800 mb-3">
+        NUESTROS ESPECIALES
+      </h2>
+      <img src="/assets/images/coffee-bean.svg" alt="" class="w-4 h-6 mx-auto opacity-80 mb-4" />
+      <p class="font-sans text-sm text-coffee-800 tracking-wider max-w-md mx-auto">
+        Selecciones de temporada preparadas a la perfección por nuestros apasionados baristas.
+      </p>
+    </div>
+
+    <!-- Cuadrícula de 2 Columnas de Especiales con precios en MXN -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-10">
+      
+      <!-- Especial 1 -->
+      <div class="flex items-start space-x-4 group p-3 rounded-2xl hover:bg-cream-200/50 transition-colors">
+        <img src="/assets/images/iced-caramel.webp" alt="Iced Caramel Drizzle" class="w-16 h-16 rounded-full object-cover shadow-sm group-hover:scale-105 transition-transform flex-shrink-0" />
+        <div class="flex-1">
+          <div class="flex items-baseline justify-between border-b border-dotted border-forest-800/30 pb-1 mb-1.5">
+            <h3 class="font-serif font-bold text-base text-forest-800 group-hover:text-forest-700">Iced Caramel Drizzle</h3>
+            <span class="font-serif font-bold text-base text-coffee-accent ml-2">$85 MXN</span>
+          </div>
+          <p class="font-sans text-xs text-forest-900/70 leading-relaxed">
+            Doble shot de espresso con leche cremosa y fino caramelo artesanal de la casa sobre cubos de hielo tallados.
+          </p>
+        </div>
+        <button data-open-order data-item="Iced Caramel Drizzle" class="w-8 h-8 rounded-full border border-forest-800/30 flex items-center justify-center text-forest-800 hover:bg-forest-800 hover:text-cream-100 btn-pressable flex-shrink-0 mt-1" title="Pedir este café">
+          +
+        </button>
+      </div>
+
+      <!-- Especial 2 -->
+      <div class="flex items-start space-x-4 group p-3 rounded-2xl hover:bg-cream-200/50 transition-colors">
+        <img src="/assets/images/lavender-latte.webp" alt="Honey Lavender Latte" class="w-16 h-16 rounded-full object-cover shadow-sm group-hover:scale-105 transition-transform flex-shrink-0" />
+        <div class="flex-1">
+          <div class="flex items-baseline justify-between border-b border-dotted border-forest-800/30 pb-1 mb-1.5">
+            <h3 class="font-serif font-bold text-base text-forest-800 group-hover:text-forest-700">Honey Lavender Latte</h3>
+            <span class="font-serif font-bold text-base text-coffee-accent ml-2">$78 MXN</span>
+          </div>
+          <p class="font-sans text-xs text-forest-900/70 leading-relaxed">
+            Doble shot de espresso infusionado con reducción de lavanda francesa orgánica y miel cruda de flores silvestres.
+          </p>
+        </div>
+        <button data-open-order data-item="Honey Lavender Latte" class="w-8 h-8 rounded-full border border-forest-800/30 flex items-center justify-center text-forest-800 hover:bg-forest-800 hover:text-cream-100 btn-pressable flex-shrink-0 mt-1" title="Pedir este café">
+          +
+        </button>
+      </div>
+
+      <!-- Especial 3 -->
+      <div class="flex items-start space-x-4 group p-3 rounded-2xl hover:bg-cream-200/50 transition-colors">
+        <img src="/assets/images/flat-white.webp" alt="Toasted Almond Flat White" class="w-16 h-16 rounded-full object-cover shadow-sm group-hover:scale-105 transition-transform flex-shrink-0" />
+        <div class="flex-1">
+          <div class="flex items-baseline justify-between border-b border-dotted border-forest-800/30 pb-1 mb-1.5">
+            <h3 class="font-serif font-bold text-base text-forest-800 group-hover:text-forest-700">Toasted Almond Flat White</h3>
+            <span class="font-serif font-bold text-base text-coffee-accent ml-2">$72 MXN</span>
+          </div>
+          <p class="font-sans text-xs text-forest-900/70 leading-relaxed">
+            Microespuma aterciopelada vertida sobre doble ristretto con notas de almendra tostada y un toque de canela.
+          </p>
+        </div>
+        <button data-open-order data-item="Toasted Almond Flat White" class="w-8 h-8 rounded-full border border-forest-800/30 flex items-center justify-center text-forest-800 hover:bg-forest-800 hover:text-cream-100 btn-pressable flex-shrink-0 mt-1" title="Pedir este café">
+          +
+        </button>
+      </div>
+
+      <!-- Especial 4 -->
+      <div class="flex items-start space-x-4 group p-3 rounded-2xl hover:bg-cream-200/50 transition-colors">
+        <img src="/assets/images/avocado-toast.webp" alt="Avocado Toast & Huevo Poché" class="w-16 h-16 rounded-full object-cover shadow-sm group-hover:scale-105 transition-transform flex-shrink-0" />
+        <div class="flex-1">
+          <div class="flex items-baseline justify-between border-b border-dotted border-forest-800/30 pb-1 mb-1.5">
+            <h3 class="font-serif font-bold text-base text-forest-800 group-hover:text-forest-700">Avocado Toast & Huevo Poché</h3>
+            <span class="font-serif font-bold text-base text-coffee-accent ml-2">$135 MXN</span>
+          </div>
+          <p class="font-sans text-xs text-forest-900/70 leading-relaxed">
+            Pan de masa madre de corte grueso, aguacate Haas machacado, huevo poché orgánico, hojuelas de chile y flor de sal.
+          </p>
+        </div>
+        <button data-open-order data-item="Avocado Toast & Huevo Poché" class="w-8 h-8 rounded-full border border-forest-800/30 flex items-center justify-center text-forest-800 hover:bg-forest-800 hover:text-cream-100 btn-pressable flex-shrink-0 mt-1" title="Pedir este desayuno">
+          +
+        </button>
+      </div>
+
+      <!-- Especial 5 -->
+      <div class="flex items-start space-x-4 group p-3 rounded-2xl hover:bg-cream-200/50 transition-colors">
+        <img src="/assets/images/cold-brew.webp" alt="Cold Brew Tonic" class="w-16 h-16 rounded-full object-cover shadow-sm group-hover:scale-105 transition-transform flex-shrink-0" />
+        <div class="flex-1">
+          <div class="flex items-baseline justify-between border-b border-dotted border-forest-800/30 pb-1 mb-1.5">
+            <h3 class="font-serif font-bold text-base text-forest-800 group-hover:text-forest-700">Cold Brew Tonic</h3>
+            <span class="font-serif font-bold text-base text-coffee-accent ml-2">$68 MXN</span>
+          </div>
+          <p class="font-sans text-xs text-forest-900/70 leading-relaxed">
+            Cold brew etíope macerado durante 24 horas con tónica botánica de cítricos y ramita de romero fresco.
+          </p>
+        </div>
+        <button data-open-order data-item="Cold Brew Tonic" class="w-8 h-8 rounded-full border border-forest-800/30 flex items-center justify-center text-forest-800 hover:bg-forest-800 hover:text-cream-100 btn-pressable flex-shrink-0 mt-1" title="Pedir este café">
+          +
+        </button>
+      </div>
+
+      <!-- Especial 6 -->
+      <div class="flex items-start space-x-4 group p-3 rounded-2xl hover:bg-cream-200/50 transition-colors">
+        <img src="/assets/images/acai-bowl.webp" alt="Bowl de Açaí Artesanal" class="w-16 h-16 rounded-full object-cover shadow-sm group-hover:scale-105 transition-transform flex-shrink-0" />
+        <div class="flex-1">
+          <div class="flex items-baseline justify-between border-b border-dotted border-forest-800/30 pb-1 mb-1.5">
+            <h3 class="font-serif font-bold text-base text-forest-800 group-hover:text-forest-700">Bowl de Açaí Artesanal</h3>
+            <span class="font-serif font-bold text-base text-coffee-accent ml-2">$125 MXN</span>
+          </div>
+          <p class="font-sans text-xs text-forest-900/70 leading-relaxed">
+            Açaí amazónico orgánico, granola crujiente de almendra sin gluten, chía, arándanos frescos, fresas y plátano.
+          </p>
+        </div>
+        <button data-open-order data-item="Bowl de Açaí Artesanal" class="w-8 h-8 rounded-full border border-forest-800/30 flex items-center justify-center text-forest-800 hover:bg-forest-800 hover:text-cream-100 btn-pressable flex-shrink-0 mt-1" title="Pedir este bowl">
+          +
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Botón Central -->
+    <div class="text-center mt-12">
+      <a href="#menu" class="inline-flex items-center px-8 py-3 rounded-full border border-forest-800 text-forest-800 font-semibold text-xs uppercase tracking-widest hover:bg-forest-800 hover:text-cream-100 btn-pressable">
+        Ver Menú Completo
+      </a>
+    </div>
+
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 4. BANNER DIVISORIO / MARQUEE (SIN SOLAPAMIENTO) -->
+  <!-- ========================================== -->
+  <section class="relative w-full bg-forest-800 py-16 sm:py-24 my-20 overflow-visible">
+    
+    <div class="max-w-7xl mx-auto px-6 sm:px-12 flex flex-col lg:flex-row items-center justify-between gap-8 relative">
+      
+      <!-- Polaroid Izquierda: en su propia columna flexible -->
+      <div class="hidden lg:block w-48 xl:w-56 polaroid-card -rotate-6 flex-shrink-0 -my-14 z-20">
+        <div class="bg-cream-50 p-2.5 pb-5 rounded-xl shadow-polaroid border border-cream-300">
+          <img src="/assets/images/cafe-interior.webp" alt="Ambiente cálido de cafetería" class="w-full h-36 xl:h-44 object-cover rounded-lg mb-2" />
+          <p class="font-handwritten text-center text-forest-900 text-sm font-bold">Sol de Mañana • 8:15 AM</p>
+        </div>
+      </div>
+
+      <!-- Contenido Central: Título, Subtítulo y Botón CTA centrados verticalmente -->
+      <div class="flex-1 max-w-xl mx-auto text-center z-10 px-4">
+        <h2 class="font-bebas text-3xl sm:text-4xl md:text-5xl text-cream-100 tracking-wider leading-tight mb-4">
+          CAFÉ Y DESAYUNO,<br>EN TU LUGAR FAVORITO
+        </h2>
+        <p class="font-sans text-xs sm:text-sm text-cream-300 font-light max-w-md mx-auto mb-8">
+          Entra en nuestro cálido santuario o pasa por tu taza matutina camino al trabajo.
+        </p>
+        <div>
+          <button data-open-order class="px-8 py-3.5 rounded-full bg-cream-100 text-forest-800 font-bold text-xs uppercase tracking-widest hover:bg-cream-50 hover:shadow-lg btn-pressable">
+            Visítanos Hoy
+          </button>
+        </div>
+      </div>
+
+      <!-- Polaroid Derecha: en su propia columna flexible -->
+      <div class="hidden lg:block w-48 xl:w-56 polaroid-card rotate-6 flex-shrink-0 -my-14 z-20">
+        <div class="bg-cream-50 p-2.5 pb-5 rounded-xl shadow-polaroid border border-cream-300">
+          <img src="/assets/images/cafe-people.webp" alt="Amigos compartiendo café" class="w-full h-36 xl:h-44 object-cover rounded-lg mb-2" />
+          <p class="font-handwritten text-center text-forest-900 text-sm font-bold">Momentos Compartidos</p>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 5. SECCIÓN: EXPLORA NUESTRO MENÚ (PRECIOS MXN) -->
+  <!-- ========================================== -->
+  <section id="menu" class="relative py-24 md:py-32 px-6 max-w-5xl mx-auto">
+    
+    <!-- Mancha de café decorativa en el margen derecho -->
+    <div class="absolute -right-8 bottom-16 w-36 pointer-events-none select-none" aria-hidden="true">
+      <img src="/assets/images/coffee-ring.svg" alt="" class="w-full h-auto opacity-40" />
+    </div>
+
+    <div class="text-center mb-12">
+      <h2 class="font-bebas text-4xl sm:text-5xl md:text-6xl tracking-wider text-forest-800 mb-3">
+        EXPLORA NUESTRO MENÚ
+      </h2>
+      <img src="/assets/images/coffee-bean.svg" alt="" class="w-4 h-6 mx-auto opacity-80 mb-4" />
+      <p class="font-sans text-sm text-coffee-800 tracking-wider max-w-md mx-auto">
+        Encuentra tus favoritos de cada día, desde filtrados de origen único hasta creaciones de temporada.
+      </p>
+
+      <!-- Píldoras de Filtrado por Categoría -->
+      <div class="flex flex-wrap items-center justify-center gap-2 mt-8">
+        <button class="menu-tab-btn px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider bg-forest-800 text-cream-100 btn-pressable" data-category="all">
+          Todas las Bebidas
+        </button>
+        <button class="menu-tab-btn px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider bg-cream-200 text-forest-900 btn-pressable" data-category="coffee">
+          Café & Espresso
+        </button>
+        <button class="menu-tab-btn px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider bg-cream-200 text-forest-900 btn-pressable" data-category="tea">
+          Tés & Botánicos
+        </button>
+      </div>
+    </div>
+
+    <!-- Cuadrícula de Menú de 2 Columnas con precios MXN -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+      
+      <!-- Elemento 1 -->
+      <div class="menu-item-card flex items-start space-x-4 p-2" data-category="coffee">
+        <div class="w-10 h-10 rounded-full bg-forest-800/10 flex items-center justify-center flex-shrink-0 text-forest-800">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
+        </div>
+        <div class="flex-1">
+          <div class="flex items-baseline justify-between border-b border-dotted border-forest-800/30 pb-1 mb-1">
+            <h4 class="font-serif font-bold text-sm text-forest-800">Espresso Clásico</h4>
+            <span class="font-serif font-bold text-sm text-coffee-accent">$45 MXN</span>
+          </div>
+          <p class="font-sans text-xs text-forest-900/70">Extracción insignia de 2 shots con tueste medio de la casa y crema dorada y densa.</p>
+        </div>
+      </div>
+
+      <!-- Elemento 2 -->
+      <div class="menu-item-card flex items-start space-x-4 p-2" data-category="coffee">
+        <div class="w-10 h-10 rounded-full bg-forest-800/10 flex items-center justify-center flex-shrink-0 text-forest-800">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.4z"/></svg>
+        </div>
+        <div class="flex-1">
+          <div class="flex items-baseline justify-between border-b border-dotted border-forest-800/30 pb-1 mb-1">
+            <h4 class="font-serif font-bold text-sm text-forest-800">Chemex de Origen Único</h4>
+            <span class="font-serif font-bold text-sm text-coffee-accent">$75 MXN</span>
+          </div>
+          <p class="font-sans text-xs text-forest-900/70">Método de goteo limpio y floral con notas sutiles de jazmín, melocotón y frutas de hueso.</p>
+        </div>
+      </div>
+
+      <!-- Elemento 3 -->
+      <div class="menu-item-card flex items-start space-x-4 p-2" data-category="coffee">
+        <div class="w-10 h-10 rounded-full bg-forest-800/10 flex items-center justify-center flex-shrink-0 text-forest-800">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="flex-1">
+          <div class="flex items-baseline justify-between border-b border-dotted border-forest-800/30 pb-1 mb-1">
+            <h4 class="font-serif font-bold text-sm text-forest-800">Cold Brew Float</h4>
+            <span class="font-serif font-bold text-sm text-coffee-accent">$85 MXN</span>
+          </div>
+          <p class="font-sans text-xs text-forest-900/70">Macerado durante 24 horas y servido sobre gelato artesanal de vainilla de Madagascar.</p>
+        </div>
+      </div>
+
+      <!-- Elemento 4 -->
+      <div class="menu-item-card flex items-start space-x-4 p-2" data-category="coffee">
+        <div class="w-10 h-10 rounded-full bg-forest-800/10 flex items-center justify-center flex-shrink-0 text-forest-800">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M18.5 3H6c-1.1 0-2 .9-2 2v5.71c0 3.83 2.95 7.18 6.78 7.29 3.96.12 7.22-3.06 7.22-7V8h.5c1.93 0 3.5-1.57 3.5-3.5S20.43 3 18.5 3zM16 5v3H6V5h10zm2.5 1.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM4 19h16v2H4z"/></svg>
+        </div>
+        <div class="flex-1">
+          <div class="flex items-baseline justify-between border-b border-dotted border-forest-800/30 pb-1 mb-1">
+            <h4 class="font-serif font-bold text-sm text-forest-800">Cortado Español</h4>
+            <span class="font-serif font-bold text-sm text-coffee-accent">$55 MXN</span>
+          </div>
+          <p class="font-sans text-xs text-forest-900/70">Partes iguales de espresso intenso y leche sedosa servido en vaso estriado tradicional.</p>
+        </div>
+      </div>
+
+      <!-- Elemento 5 -->
+      <div class="menu-item-card flex items-start space-x-4 p-2" data-category="tea">
+        <div class="w-10 h-10 rounded-full bg-forest-800/10 flex items-center justify-center flex-shrink-0 text-forest-800">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"/></svg>
+        </div>
+        <div class="flex-1">
+          <div class="flex items-baseline justify-between border-b border-dotted border-forest-800/30 pb-1 mb-1">
+            <h4 class="font-serif font-bold text-sm text-forest-800">Matcha Ceremonial Uji</h4>
+            <span class="font-serif font-bold text-sm text-coffee-accent">$80 MXN</span>
+          </div>
+          <p class="font-sans text-xs text-forest-900/70">Matcha de Kyoto de primera cosecha molido en piedra, batido con leche de avena espumada.</p>
+        </div>
+      </div>
+
+      <!-- Elemento 6 -->
+      <div class="menu-item-card flex items-start space-x-4 p-2" data-category="tea">
+        <div class="w-10 h-10 rounded-full bg-forest-800/10 flex items-center justify-center flex-shrink-0 text-forest-800">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+        </div>
+        <div class="flex-1">
+          <div class="flex items-baseline justify-between border-b border-dotted border-forest-800/30 pb-1 mb-1">
+            <h4 class="font-serif font-bold text-sm text-forest-800">Chai Latte Imperial</h4>
+            <span class="font-serif font-bold text-sm text-coffee-accent">$70 MXN</span>
+          </div>
+          <p class="font-sans text-xs text-forest-900/70">Té negro infusionado a fuego lento con cardamomo triturado, canela en rama y clavo.</p>
+        </div>
+      </div>
+
+      <!-- Elemento 7 -->
+      <div class="menu-item-card flex items-start space-x-4 p-2" data-category="tea">
+        <div class="w-10 h-10 rounded-full bg-forest-800/10 flex items-center justify-center flex-shrink-0 text-forest-800">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </div>
+        <div class="flex-1">
+          <div class="flex items-baseline justify-between border-b border-dotted border-forest-800/30 pb-1 mb-1">
+            <h4 class="font-serif font-bold text-sm text-forest-800">Té de Rosa de Damasco</h4>
+            <span class="font-serif font-bold text-sm text-coffee-accent">$65 MXN</span>
+          </div>
+          <p class="font-sans text-xs text-forest-900/70">Té de Ceilán infusionado con agua de pétalos de rosa orgánica, miel y leche de almendras.</p>
+        </div>
+      </div>
+
+      <!-- Elemento 8 -->
+      <div class="menu-item-card flex items-start space-x-4 p-2" data-category="tea">
+        <div class="w-10 h-10 rounded-full bg-forest-800/10 flex items-center justify-center flex-shrink-0 text-forest-800">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+        </div>
+        <div class="flex-1">
+          <div class="flex items-baseline justify-between border-b border-dotted border-forest-800/30 pb-1 mb-1">
+            <h4 class="font-serif font-bold text-sm text-forest-800">Zumo de Cítricos Prensado en Frío</h4>
+            <span class="font-serif font-bold text-sm text-coffee-accent">$55 MXN</span>
+          </div>
+          <p class="font-sans text-xs text-forest-900/70">Naranjas Valencia recién exprimidas con un toque fresco de jengibre y menta.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Botón Descargar PDF -->
+    <div class="text-center mt-12">
+      <button class="inline-flex items-center space-x-2 px-6 py-2.5 rounded-full border border-forest-800/40 text-forest-800 text-xs font-semibold uppercase tracking-wider hover:bg-forest-800 hover:text-cream-100 btn-pressable">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        <span>Descargar Menú Completo (PDF)</span>
+      </button>
+    </div>
+
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 6. SECCIÓN: MOSAICO DE GALERÍA (BENTO GRID) -->
+  <!-- ========================================== -->
+  <section id="gallery" class="py-20 px-6 max-w-6xl mx-auto">
+    
+    <!-- Contenedor redondeado verde bosque con bento grid -->
+    <div class="relative bg-forest-800 p-4 sm:p-6 md:p-8 rounded-3xl shadow-xl overflow-hidden">
+      
+      <!-- Cuadrícula Bento -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+        
+        <!-- Foto Superior Izquierda: Amigos riendo -->
+        <div class="gallery-item md:col-span-7 h-64 sm:h-80 rounded-2xl overflow-hidden shadow-inner">
+          <img src="/assets/images/cafe-people.webp" alt="Amigos compartiendo café" class="w-full h-full object-cover" />
+        </div>
+
+        <!-- Foto Superior Derecha: Barra de baristas -->
+        <div class="gallery-item md:col-span-5 h-64 sm:h-80 rounded-2xl overflow-hidden shadow-inner">
+          <img src="/assets/images/cozy-corner.webp" alt="Barra de café y estantes de madera" class="w-full h-full object-cover" />
+        </div>
+
+        <!-- Foto Inferior Izquierda: Arte latte -->
+        <div class="gallery-item md:col-span-4 h-56 sm:h-72 rounded-2xl overflow-hidden shadow-inner">
+          <img src="/assets/images/barista-craft.webp" alt="Barista vertiendo arte latte" class="w-full h-full object-cover" />
+        </div>
+
+        <!-- Foto Inferior Central: Atmósfera interior -->
+        <div class="gallery-item md:col-span-4 h-56 sm:h-72 rounded-2xl overflow-hidden shadow-inner">
+          <img src="/assets/images/cafe-interior.webp" alt="Iluminación cálida interior" class="w-full h-full object-cover" />
+        </div>
+
+        <!-- Foto Inferior Derecha: Tostadora de café -->
+        <div class="gallery-item md:col-span-4 h-56 sm:h-72 rounded-2xl overflow-hidden shadow-inner">
+          <img src="/assets/images/roastery.webp" alt="Tostadora de café artesanal" class="w-full h-full object-cover" />
+        </div>
+
+      </div>
+
+      <!-- Distintivo Central Superpuesto -->
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div class="bg-cream-100/95 backdrop-blur-md border border-cream-300 px-6 py-4 rounded-xl shadow-2xl text-center max-w-xs pointer-events-auto transform hover:scale-105 transition-transform duration-200">
+          <h3 class="font-bebas text-2xl sm:text-3xl text-forest-800 tracking-wider leading-tight">
+            UN SABOR QUE<br>QUERRÁS COMPARTIR
+          </h3>
+          <a href="https://www.instagram.com/cafe__kdhalyoficial/" target="_blank" rel="noopener noreferrer" class="font-sans text-[10px] text-coffee-accent font-bold uppercase tracking-widest mt-1 hover:underline block">
+            Etiqueta @cafe__kdhalyoficial
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 7. SECCIÓN: NUESTROS CLIENTES FELICES (TESTIMONIOS) -->
+  <!-- ========================================== -->
+  <section id="visitors" class="py-24 md:py-32 px-6 max-w-5xl mx-auto">
+    
+    <div class="text-center mb-16">
+      <h2 class="font-bebas text-4xl sm:text-5xl md:text-6xl tracking-wider text-forest-800 mb-3">
+        NUESTROS CLIENTES FELICES
+      </h2>
+      <img src="/assets/images/coffee-bean.svg" alt="" class="w-4 h-6 mx-auto opacity-80 mb-4" />
+      <p class="font-sans text-sm text-coffee-800 tracking-wider max-w-md mx-auto">
+        Lo que nuestra querida comunidad dice sobre su experiencia diaria con nosotros.
+      </p>
+    </div>
+
+    <!-- Contenedor del Carrusel -->
+    <div class="relative overflow-hidden">
+      
+      <!-- Pista de Diapositivas -->
+      <div id="testimonials-track" class="flex transition-transform duration-500 ease-emil-out">
+        
+        <!-- Diapositiva 1: Ana Cristina & Luis Arturo -->
+        <div class="testimonial-slide w-full flex-shrink-0 grid grid-cols-1 md:grid-cols-2 gap-8 px-2">
+          
+          <!-- Reseña A: Ana Cristina -->
+          <div class="bg-cream-card/90 border border-cream-300/80 rounded-2xl p-8 relative flex flex-col justify-between shadow-soft-card">
+            <div class="mb-6">
+              <div class="flex text-coffee-gold space-x-1 mb-4">
+                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+              </div>
+              <p class="font-serif italic text-forest-900 text-sm md:text-base leading-relaxed">
+                "Kdhaly El Rincón del Café ha transformado por completo mis mañanas antes de iniciar las guardias en el hospital. La atención al perfil de tueste y el ambiente cálido hacen que sea mi parada obligatoria."
+              </p>
+            </div>
+            <div class="flex items-center justify-between border-t border-forest-800/10 pt-4">
+              <div>
+                <h5 class="font-serif font-bold text-sm text-forest-800">Ana Cristina</h5>
+                <p class="text-xs text-coffee-accent font-medium">Médica</p>
+              </div>
+              <span class="font-serif text-3xl text-forest-800/25">“</span>
+            </div>
+          </div>
+
+          <!-- Reseña B: Luis Arturo -->
+          <div class="bg-cream-card/90 border border-cream-300/80 rounded-2xl p-8 relative flex flex-col justify-between shadow-soft-card">
+            <div class="mb-6">
+              <div class="flex text-coffee-gold space-x-1 mb-4">
+                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+              </div>
+              <p class="font-serif italic text-forest-900 text-sm md:text-base leading-relaxed">
+                "El mejor café de especialidad de la zona. Excelente iluminación, Wi-Fi rápido y un Flat White de campeonato que me acompaña en cada sprint de desarrollo y código."
+              </p>
+            </div>
+            <div class="flex items-center justify-between border-t border-forest-800/10 pt-4">
+              <div>
+                <h5 class="font-serif font-bold text-sm text-forest-800">Luis Arturo</h5>
+                <p class="text-xs text-coffee-accent font-medium">Programador</p>
+              </div>
+              <span class="font-serif text-3xl text-forest-800/25">“</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Diapositiva 2: Angel Ventura & Axel Ivan -->
+        <div class="testimonial-slide w-full flex-shrink-0 grid grid-cols-1 md:grid-cols-2 gap-8 px-2">
+          
+          <!-- Reseña C: Angel Ventura -->
+          <div class="bg-cream-card/90 border border-cream-300/80 rounded-2xl p-8 relative flex flex-col justify-between shadow-soft-card">
+            <div class="mb-6">
+              <div class="flex text-coffee-gold space-x-1 mb-4">
+                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+              </div>
+              <p class="font-serif italic text-forest-900 text-sm md:text-base leading-relaxed">
+                "Precisión absoluta en cada extracción y balance exacto de perfiles. Los métodos artesanales de filtrado Chemex y el Honey Lavender Latte son genuinamente insuperables."
+              </p>
+            </div>
+            <div class="flex items-center justify-between border-t border-forest-800/10 pt-4">
+              <div>
+                <h5 class="font-serif font-bold text-sm text-forest-800">Angel Ventura</h5>
+                <p class="text-xs text-coffee-accent font-medium">Actuario</p>
+              </div>
+              <span class="font-serif text-3xl text-forest-800/25">“</span>
+            </div>
+          </div>
+
+          <!-- Reseña D: Axel Ivan -->
+          <div class="bg-cream-card/90 border border-cream-300/80 rounded-2xl p-8 relative flex flex-col justify-between shadow-soft-card">
+            <div class="mb-6">
+              <div class="flex text-coffee-gold space-x-1 mb-4">
+                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+              </div>
+              <p class="font-serif italic text-forest-900 text-sm md:text-base leading-relaxed">
+                "Un lugar con gran diseño, pasión por el oficio y la mejor atención. El Cold Brew Tonic y el Avocado Toast con huevo poché son mi ritual favorito cada semana."
+              </p>
+            </div>
+            <div class="flex items-center justify-between border-t border-forest-800/10 pt-4">
+              <div>
+                <h5 class="font-serif font-bold text-sm text-forest-800">Axel Ivan</h5>
+                <p class="text-xs text-coffee-accent font-medium">Ingeniero automotriz</p>
+              </div>
+              <span class="font-serif text-3xl text-forest-800/25">“</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Controles de Flecha Anterior / Siguiente -->
+      <div class="flex justify-center items-center space-x-4 mt-8">
+        <button id="btn-prev-testimonial" class="w-10 h-10 rounded-full border border-forest-800/30 flex items-center justify-center text-forest-800 hover:bg-forest-800 hover:text-cream-100 btn-pressable" aria-label="Reseñas Anteriores">
+          &#8592;
+        </button>
+        <button id="btn-next-testimonial" class="w-10 h-10 rounded-full border border-forest-800/30 flex items-center justify-center text-forest-800 hover:bg-forest-800 hover:text-cream-100 btn-pressable" aria-label="Siguientes Reseñas">
+          &#8594;
+        </button>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 8. SECCIÓN: ENCUENTRA KDHALY EL RINCÓN DEL CAFÉ -->
+  <!-- ========================================== -->
+  <section id="contact" class="py-20 md:py-28 px-6 max-w-5xl mx-auto">
+    
+    <div class="text-center mb-16">
+      <h2 class="font-bebas text-4xl sm:text-5xl md:text-6xl tracking-wider text-forest-800 mb-3">
+        ENCUENTRA KDHALY EL RINCÓN DEL CAFÉ
+      </h2>
+      <img src="/assets/images/coffee-bean.svg" alt="" class="w-4 h-6 mx-auto opacity-80 mb-4" />
+      <p class="font-sans text-sm text-coffee-800 tracking-wider max-w-md mx-auto">
+        Pasa por tu café de la mañana o quédate para una tarde de trabajo inspirador.
+      </p>
+    </div>
+
+    <!-- 3 Tarjetas de Contacto -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- Tarjeta 1: Dirección oficial -->
+      <div class="bg-cream-card/90 border border-cream-300 p-8 rounded-2xl text-center flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 rounded-full bg-forest-800/10 flex items-center justify-center text-forest-800 mb-4">
+          <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        </div>
+        <h4 class="font-bebas text-xl text-forest-800 tracking-wider mb-2">VISITA NUESTRO LOCAL</h4>
+        <p class="font-sans text-xs text-forest-900/80 mb-4 leading-relaxed">
+          Av. Sor Juana Inés de La Cruz 810<br>Benito Juárez, 57000 Cdad. Nezahualcóyotl, Méx.
+        </p>
+        <a href="https://www.google.com/maps/search/?api=1&query=Av.+Sor+Juana+Inés+de+La+Cruz+810,+Benito+Juárez,+57000+Cdad.+Nezahualcóyotl,+Méx." target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-coffee-accent hover:underline uppercase tracking-wider">
+          Cómo Llegar &rarr;
+        </a>
+      </div>
+
+      <!-- Tarjeta 2: Teléfono solicitado -->
+      <div class="bg-cream-card/90 border border-cream-300 p-8 rounded-2xl text-center flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 rounded-full bg-forest-800/10 flex items-center justify-center text-forest-800 mb-4">
+          <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        </div>
+        <h4 class="font-bebas text-xl text-forest-800 tracking-wider mb-2">LLÁMANOS AHORA</h4>
+        <p class="font-sans text-xs text-forest-900/80 mb-4 leading-relaxed font-semibold">
+          55 2523 1878<br><span class="font-normal text-forest-900/70">Pedidos rápidos y atención directa</span>
+        </p>
+        <a href="tel:5525231878" class="text-xs font-bold text-coffee-accent hover:underline uppercase tracking-wider">
+          Llamar Ahora &rarr;
+        </a>
+      </div>
+
+      <!-- Tarjeta 3: Horarios según la imagen adjunta -->
+      <div class="bg-cream-card/90 border border-cream-300 p-8 rounded-2xl text-center flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow">
+        <div class="w-12 h-12 rounded-full bg-forest-800/10 flex items-center justify-center text-forest-800 mb-4">
+          <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+        </div>
+        <h4 class="font-bebas text-xl text-forest-800 tracking-wider mb-2">HORARIOS DE ATENCIÓN</h4>
+        <div class="w-full text-xs text-forest-900/80 leading-relaxed space-y-1 mb-3">
+          <div class="flex justify-between border-b border-forest-800/10 pb-0.5">
+            <span class="font-semibold text-forest-800">Lunes – Viernes:</span>
+            <span>8:30 a.m. – 6:00 p.m.</span>
+          </div>
+          <div class="flex justify-between text-coffee-accent pt-0.5">
+            <span class="font-semibold">Sábado y Domingo:</span>
+            <span class="font-bold">Cerrado</span>
+          </div>
+        </div>
+        <span class="inline-block px-3 py-1 bg-forest-800/10 rounded-full text-[10px] font-bold text-forest-800 uppercase tracking-widest">
+          Lun a Vie: 8:30 a.m. – 6 p.m.
+        </span>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 9. FOOTER -->
+  <!-- ========================================== -->
+  <footer class="bg-forest-900 text-cream-100 pt-20 pb-12 px-6 border-t border-forest-800">
+    <div class="max-w-6xl mx-auto">
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-forest-700/50">
+        
+        <!-- Col 1: Información de Marca -->
+        <div class="md:col-span-5 space-y-4">
+          <div>
+            <h3 class="font-bebas text-3xl sm:text-4xl tracking-widest text-cream-100">KDHALY</h3>
+            <p class="font-sans text-[11px] tracking-[0.22em] text-coffee-gold uppercase font-semibold">
+              El Rincón del Café
+            </p>
+          </div>
+          <p class="font-sans text-xs tracking-widest text-coffee-accent uppercase font-medium">
+            Tostaduría de Especialidad & Cocina
+          </p>
+          <p class="font-sans text-xs text-cream-300/80 leading-relaxed max-w-sm">
+            Granos de origen ético, tostados a la perfección y extraídos con precisión. Un santuario para amantes del café, artistas y creadores del barrio.
+          </p>
+          
+          <div class="pt-2 text-xs text-cream-300 leading-relaxed">
+            <p>Av. Sor Juana Inés de La Cruz 810, Benito Juárez</p>
+            <p>57000 Cdad. Nezahualcóyotl, Méx.</p>
+            <p class="mt-2 text-coffee-gold font-medium">
+              Tel: <a href="tel:5525231878" class="hover:underline">55 2523 1878</a> • 
+              <a href="https://www.instagram.com/cafe__kdhalyoficial/" target="_blank" rel="noopener noreferrer" class="hover:underline ml-1">Instagram Oficial</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Col 2: Enlaces de Navegación -->
+        <div class="md:col-span-3 space-y-3">
+          <h4 class="font-bebas text-lg tracking-wider text-coffee-gold">EXPLORAR</h4>
+          <ul class="space-y-2 text-xs text-cream-300/90 font-light">
+            <li><a href="#story" class="hover:text-cream-100 transition-colors">Nuestra Historia & Tostaduría</a></li>
+            <li><a href="#specials" class="hover:text-cream-100 transition-colors">Especiales del Barista</a></li>
+            <li><a href="#menu" class="hover:text-cream-100 transition-colors">Menú de Temporada & Repostería</a></li>
+            <li><a href="#gallery" class="hover:text-cream-100 transition-colors">Galería Visual</a></li>
+            <li><a href="#contact" class="hover:text-cream-100 transition-colors">Ubicación & Horarios</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Suscripción al Boletín -->
+        <div class="md:col-span-4 space-y-4">
+          <h4 class="font-bebas text-lg tracking-wider text-coffee-gold">ÚNETE AL CLUB DEL CAFÉ</h4>
+          <p class="font-sans text-xs text-cream-300/80 leading-relaxed">
+            Suscríbete para recibir notas de cata exclusivas del tostador, invitaciones a eventos privados y un 10% de descuento en tu primera bolsa de café.
+          </p>
+          
+          <form id="newsletter-form" class="space-y-2">
+            <div class="flex items-center rounded-full bg-forest-850 border border-forest-700/60 p-1 focus-within:border-coffee-gold transition-colors">
+              <input type="email" required placeholder="Introduce tu correo electrónico" 
+                     class="bg-transparent text-xs text-cream-100 px-4 py-2 w-full focus:outline-none placeholder:text-cream-300/40" />
+              <button type="submit" class="bg-coffee-gold text-forest-950 font-bold px-4 py-2 rounded-full text-xs uppercase tracking-wider hover:bg-cream-100 transition-colors btn-pressable">
+                Unirme
+              </button>
+            </div>
+          </form>
+          <div id="newsletter-feedback" class="hidden text-xs text-cream-100 bg-forest-800 p-3 rounded-lg border border-forest-600"></div>
+        </div>
+
+      </div>
+
+      <!-- Barra Inferior: Derechos Reservados & Legal -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-cream-300/60 font-light space-y-4 sm:space-y-0">
+        <p>© 2024 Kdhaly El Rincón del café. Todos los derechos reservados.</p>
+        <div class="flex space-x-6">
+          <a href="#" class="hover:text-cream-100 transition-colors">Política de Privacidad</a>
+          <a href="#" class="hover:text-cream-100 transition-colors">Términos del Servicio</a>
+          <a href="#" class="hover:text-cream-100 transition-colors">Preferencias de Cookies</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ========================================== -->
+  <!-- MODAL INTERACTIVO DE PEDIDO / RESERVACIÓN -->
+  <!-- ========================================== -->
+  <div id="order-modal" class="fixed inset-0 z-[120] hidden" role="dialog" aria-modal="true">
+    <!-- Fondo con desenfoque -->
+    <div id="modal-backdrop" class="fixed inset-0 bg-forest-950/70 backdrop-blur-sm transition-opacity duration-300"></div>
+
+    <!-- Panel del Modal (Entrada con física de resorte centrada según Emil Kowalski) -->
+    <div class="fixed inset-0 flex items-center justify-center p-4">
+      <div id="modal-panel" class="relative bg-cream-100 border border-cream-300 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl transition-all duration-300 transform scale-95 opacity-0">
+        
+        <!-- Botón de Cierre -->
+        <button id="btn-close-modal" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-cream-200 text-forest-800 flex items-center justify-center hover:bg-cream-300 btn-pressable" aria-label="Cerrar modal">
+          ✕
+        </button>
+
+        <div class="text-center mb-6">
+          <span class="text-[10px] font-bold uppercase tracking-widest text-coffee-accent">Barra de Baristas Artesanales</span>
+          <h3 class="font-bebas text-3xl text-forest-800 tracking-wider mt-1">HAZ TU PEDIDO</h3>
+          <p class="text-xs text-forest-900/70 mt-1">Elaborado a mano con dedicación. Listo en 10-15 minutos.</p>
+        </div>
+
+        <!-- Formulario de Pedido con precios MXN -->
+        <form id="order-form" class="space-y-4">
+          
+          <div>
+            <label class="block text-xs font-semibold text-forest-800 uppercase tracking-wider mb-1.5">Selecciona tu Bebida</label>
+            <select id="order-item-select" class="w-full bg-cream-50 border border-cream-300 rounded-xl px-3 py-2.5 text-xs text-forest-900 font-medium focus:outline-none focus:border-forest-800">
+              <option value="Iced Caramel Drizzle">Iced Caramel Drizzle - $85 MXN</option>
+              <option value="Honey Lavender Latte">Honey Lavender Latte - $78 MXN</option>
+              <option value="Toasted Almond Flat White">Toasted Almond Flat White - $72 MXN</option>
+              <option value="Cold Brew Tonic">Cold Brew Tonic - $68 MXN</option>
+              <option value="Espresso Clásico">Espresso Clásico - $45 MXN</option>
+              <option value="Chemex de Origen Único">Chemex de Origen Único - $75 MXN</option>
+              <option value="Matcha Ceremonial Uji">Matcha Ceremonial Uji - $80 MXN</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-forest-800 uppercase tracking-wider mb-1.5">Tipo de Leche</label>
+              <select class="w-full bg-cream-50 border border-cream-300 rounded-xl px-3 py-2 text-xs text-forest-900 font-medium focus:outline-none focus:border-forest-800">
+                <option>Leche Entera Orgánica</option>
+                <option>Leche de Avena (Barista)</option>
+                <option>Leche de Almendras</option>
+                <option>Leche de Coco</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-forest-800 uppercase tracking-wider mb-1.5">Tamaño</label>
+              <select class="w-full bg-cream-50 border border-cream-300 rounded-xl px-3 py-2 text-xs text-forest-900 font-medium focus:outline-none focus:border-forest-800">
+                <option>Regular (12 oz)</option>
+                <option>Grande (16 oz)</option>
+                <option>Corto (8 oz)</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-forest-800 uppercase tracking-wider mb-1.5">Nombre para Entrega</label>
+            <input type="text" placeholder="ej. Sofía" required class="w-full bg-cream-50 border border-cream-300 rounded-xl px-3 py-2 text-xs text-forest-900 focus:outline-none focus:border-forest-800" />
+          </div>
+
+          <div class="pt-2">
+            <button type="submit" class="w-full py-3.5 rounded-full bg-forest-800 text-cream-100 font-bold text-xs uppercase tracking-widest hover:bg-forest-900 btn-pressable shadow-md">
+              Confirmar y Preparar Pedido
+            </button>
+          </div>
+
+        </form>
+
+        <!-- Estado de Confirmación Exitosa -->
+        <div id="order-success" class="hidden text-center py-6 space-y-4">
+          <div class="w-16 h-16 bg-forest-800/10 rounded-full flex items-center justify-center mx-auto text-forest-800">
+            <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          </div>
+          <h4 class="font-bebas text-3xl text-forest-800 tracking-wider">¡PEDIDO RECIBIDO!</h4>
+          <p class="font-sans text-xs text-forest-900/80 leading-relaxed">
+            Tu barista está preparando tu bebida artesanal con esmero. ¡Te llamaremos en el mostrador cuando esté lista!
+          </p>
+          <button id="btn-reset-order" class="px-6 py-2.5 rounded-full bg-forest-800 text-cream-100 text-xs font-bold uppercase tracking-wider btn-pressable">
+            Cerrar
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Transiciones de apertura y cierre suave del modal */
+    #order-modal.active #modal-panel {
+      transform: scale(1);
+      opacity: 1;
+    }
+    #order-modal.active #modal-backdrop {
+      opacity: 1;
+    }
+  </style>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

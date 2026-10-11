@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" fill="none">
+  <defs>
+    <filter id="ringRough" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+  <g filter="url(#ringRough)" opacity="0.32">
+    <!-- Outer ring rim -->
+    <circle cx="100" cy="100" r="70" stroke="#7A4F2A" stroke-width="4.5" stroke-dasharray="12 4 8 2 15 5" fill="none"/>
+    <circle cx="100" cy="100" r="68" stroke="#5C3619" stroke-width="2" opacity="0.7" fill="none"/>
+    <!-- Ring bleed -->
+    <circle cx="100" cy="100" r="73" stroke="#A67343" stroke-width="1.5" opacity="0.4" stroke-dasharray="6 8 10 4" fill="none"/>
+    <!-- Small drip drops -->
+    <circle cx="160" cy="120" r="3" fill="#6A3F1F" opacity="0.6"/>
+    <circle cx="168" cy="132" r="1.8" fill="#6A3F1F" opacity="0.4"/>
+    <circle cx="45" cy="80" r="2.2" fill="#6A3F1F" opacity="0.5"/>
+  </g>
+</svg>
