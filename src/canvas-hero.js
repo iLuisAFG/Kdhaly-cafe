@@ -74,7 +74,9 @@ export class HeroCanvasScroller {
 
   getFrameUrl(index) {
     const padded = String(index + 1).padStart(3, '0');
-    return `/assets/hero-frames/frame_${padded}.webp`;
+    const base = import.meta.env.BASE_URL || '/';
+    const cleanBase = base.endsWith('/') ? base : base + '/';
+    return `${cleanBase}assets/hero-frames/frame_${padded}.webp`;
   }
 
   async preloadFrames() {
@@ -101,7 +103,9 @@ export class HeroCanvasScroller {
           // Fallback to relative path if served directly
           const fallback = new Image();
           const padded = String(i + 1).padStart(3, '0');
-          fallback.src = `./assets/hero-frames/frame_${padded}.webp`;
+          const base = import.meta.env.BASE_URL || './';
+          const cleanBase = base.endsWith('/') ? base : base + '/';
+          fallback.src = `${cleanBase}assets/hero-frames/frame_${padded}.webp`;
           fallback.onload = () => {
             this.frames[i] = fallback;
             this.loadedCount++;
